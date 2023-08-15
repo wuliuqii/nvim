@@ -8,6 +8,9 @@ require("lazy").setup({
   require("plugins.coding"),
   require("plugins.treesitter"),
   require("plugins.lsp"),
+
+  -- local plugins
+  require("plugins.dev"),
 }
 -- {
 --   lockfile = "~/src/nixos-config/home/editor/nvim/config/" .. "/lazy-lock.json",

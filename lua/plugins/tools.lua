@@ -88,7 +88,7 @@ return {
         ["<leader>o"] = { name = "+open" },
         ["<leader>p"] = { name = "+project" },
         ["<leader>s"] = { name = "+search/select/session" },
-        ["<leader>t"] = { name = "+tab" },
+        ["<leader>t"] = { name = "+tab/todo" },
         ["<leader>w"] = { name = "+window" },
         ["<leader>x"] = { name = "+diagnostics" },
         ["<leader><TAB>"] = { name = "+tab" },

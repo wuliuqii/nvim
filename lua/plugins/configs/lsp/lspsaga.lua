@@ -18,7 +18,7 @@ return function()
     ui = {
       code_action = "",
       border = "rounded",
-      winblend = 10,
+      winblend = 1,
     },
     outline = {
       keys = {
