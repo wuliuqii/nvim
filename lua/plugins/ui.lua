@@ -3,7 +3,85 @@ return {
 	{
 		"glepnir/dashboard-nvim",
 		event = "VimEnter",
-		config = require("ui.dashboard"),
+		config = function()
+			local builtin = require("telescope.builtin")
+			local extensions = require("telescope").extensions
+			require("dashboard").setup({
+				theme = "doom",
+				config = {
+					header = {
+						[[          ____          ]],
+						[[         /.../\         ]],
+						[[        /.../--\        ]],
+						[[       /.../----\       ]],
+						[[      /.../------\      ]],
+						[[     /.../---/\---\     ]],
+						[[    /.../---/\\\---\    ]],
+						[[   /.../---/\\\\\---\   ]],
+						[[  /.../===/__\\\\\---\  ]],
+						[[ /............\\\\\---\ ]],
+						[[/..............\\\\\---\]],
+						[[\\\\\\\\\\\\\\\\\\\\\--/]],
+						[[ \\\\\\\\\\\\\\\\\\\\\/ ]],
+						[[                        ]],
+					},
+					center = {
+						{
+							icon = "  ",
+							icon_hl = "Title",
+							desc = "Recent Files",
+							desc_hl = "String",
+							key = "r",
+							keymap = "",
+							key_hl = "Number",
+							action = builtin.oldfiles,
+						},
+						{
+							icon = "  ",
+							icon_hl = "Title",
+							desc = "Projects",
+							desc_hl = "String",
+							key = "p",
+							keymap = "",
+							key_hl = "Number",
+							action = extensions.project.project,
+						},
+						{
+							icon = "  ",
+							icon_hl = "Title",
+							desc = "File Browser",
+							desc_hl = "String",
+							key = "b",
+							keymap = "",
+							key_hl = "Number",
+							action = extensions.file_browser.file_browser,
+						},
+						{
+							icon = "  ",
+							icon_hl = "Title",
+							desc = "Themes",
+							desc_hl = "String",
+							key = "t",
+							keymap = "",
+							key_hl = "Number",
+							action = builtin.colorscheme,
+						},
+						{
+							icon = "  ",
+							icon_hl = "Title",
+							desc = "Plugins",
+							desc_hl = "String",
+							key = "u",
+							keymap = "",
+							key_hl = "Number",
+							action = function()
+								vim.cmd("Lazy")
+							end,
+						},
+					},
+				},
+			})
+		end,
 	},
 
 	-- Better `vim.notify()`
@@ -61,7 +139,15 @@ return {
 					lualine_a = { "mode" },
 					lualine_b = { "branch" },
 					lualine_c = {
-						"diagnostics",
+						{
+							"diagnostics",
+							symbols = {
+								Error = " ",
+								Warn = " ",
+								Hint = " ",
+								Info = " ",
+							},
+						},
 						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
 						{ "filename", path = 0 },
 					},
@@ -77,7 +163,14 @@ return {
               cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
             },
 						{ require("lazy.status").updates, cond = require("lazy.status").has_updates },
-						"diff",
+						{
+							"diff",
+							symbols = {
+								added = " ",
+								modified = " ",
+								removed = " ",
+							},
+						},
 					},
 					lualine_y = {
 						{ "progress", separator = " ", padding = { left = 1, right = 0 } },
@@ -275,6 +368,14 @@ return {
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
+			-- signs = {
+			-- 	add = { text = "▎" },
+			-- 	change = { text = "▎" },
+			-- 	delete = { text = "" },
+			-- 	topdelete = { text = "" },
+			-- 	changedelete = { text = "▎" },
+			-- 	untracked = { text = "▎" },
+			-- },
 			on_attach = function(buffer)
 				local gs = package.loaded.gitsigns
 
@@ -374,6 +475,11 @@ return {
 				relative = "editor",
 			},
 		},
+	},
+
+	{
+		"xiyaowong/transparent.nvim",
+		cmd = { "TransparentToggle" },
 	},
 
 	-- Icons
