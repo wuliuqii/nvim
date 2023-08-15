@@ -203,6 +203,57 @@ return {
 		end,
 	},
 
+	-- Neoformat
+	{
+		"mhartington/formatter.nvim",
+		cmd = { "FormatWrite" },
+		event = "VeryLazy",
+		keys = {
+			{ "<leader>lf", "<Cmd>FormatWrite<CR>", mode = { "v", "n" }, desc = "Format file" },
+		},
+		config = function()
+			require("formatter").setup({
+				-- Enable or disable logging
+				logging = true,
+				-- Set the log level
+				log_level = vim.log.levels.INFO,
+				-- All formatter configurations are opt-in
+				filetype = {
+					lua = {
+						require("formatter.filetypes.lua").stylua,
+					},
+					rust = {
+						require("formatter.filetypes.rust").rustfmt,
+					},
+					go = {
+						require("formatter.filetypes.go").gofmt,
+					},
+					nix = {
+						require("formatter.filetypes.nix").nixpkgs_fmt,
+					},
+					markdown = {
+						require("formatter.filetypes.markdown").prettier,
+					},
+
+					-- Use the special "*" filetype for defining formatter configurations on
+					-- any filetype
+					["*"] = {
+						-- "formatter.filetypes.any" defines default configurations for any
+						-- filetype
+						require("formatter.filetypes.any").remove_trailing_whitespace,
+					},
+				},
+			})
+
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = vim.api.nvim_create_augroup("UserAutoFormat", {}),
+				callback = function()
+					vim.cmd("FormatWrite")
+				end,
+			})
+		end,
+	},
+
 	-- Mason
 	{
 		"williamboman/mason.nvim",
