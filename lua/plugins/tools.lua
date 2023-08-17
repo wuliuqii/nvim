@@ -5,7 +5,7 @@ return {
 		keys = {
 			{ "<leader>oo", "<cmd>Neorg workspace notes<cr>", desc = "Neorg workspace" },
 		},
-		run = ":Neorg sync-parsers",
+		build = ":Neorg sync-parsers",
 		opts = {
 			load = {
 				["core.defaults"] = {},

@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 return {
 	-- LSP config
 	{
@@ -245,12 +246,13 @@ return {
 				},
 			})
 
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("UserAutoFormat", {}),
-				callback = function()
-					vim.cmd("FormatWrite")
-				end,
-			})
+      -- Auto format
+			-- vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 	group = vim.api.nvim_create_augroup("UserAutoFormat", {}),
+			-- 	callback = function()
+			-- 		vim.cmd("FormatWrite")
+			-- 	end,
+			-- })
 		end,
 	},
 

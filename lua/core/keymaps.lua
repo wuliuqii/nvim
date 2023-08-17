@@ -66,6 +66,9 @@ map("v", ">", ">gv")
 -- quit all
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
+-- editor config files
+map("n", "<leader>oc", ":e $MYVIMRC<cr>", { desc = "Open config file" })
+
 -- lazy
 map("n", "<leader>ol", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
