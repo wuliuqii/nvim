@@ -40,7 +40,6 @@ return {
 			"nvim-telescope/telescope-ui-select.nvim",
 			"nvim-telescope/telescope-symbols.nvim",
 			"nvim-telescope/telescope-project.nvim",
-			"debugloop/telescope-undo.nvim",
 		},
 		config = function()
 			require("telescope").setup({
@@ -82,12 +81,6 @@ return {
 					["ui-select"] = {
 						theme = "dropdown",
 					},
-					undo = {
-						layout_strategy = "vertical",
-						layout_config = {
-							preview_height = 0.8,
-						},
-					},
 					project = {
 						base_dirs = {
 							"~/src",
@@ -101,7 +94,6 @@ return {
 			require("telescope").load_extension("ui-select")
 			require("telescope").load_extension("notify")
 			require("telescope").load_extension("project")
-			require("telescope").load_extension("undo")
 
 			-- keymaps
 			local builtin = require("telescope.builtin")
@@ -138,7 +130,6 @@ return {
 			-- Extensions keymaps
 			vim.keymap.set("n", "<leader>ff", extensions.file_browser.file_browser, { desc = "File browser" })
 			vim.keymap.set("n", "<leader>pp", extensions.project.project, { desc = "Project" })
-			vim.keymap.set("n", "<leader>ou", "<cmd>Telescope undo<cr>", { desc = "Undo tree" })
 			-- vim.keymap.set("n", "<M-x>", "<cmd>Telescope commands<cr>", { desc = "Commands" })
 		end,
 	},
@@ -266,4 +257,13 @@ return {
 			})
 		end,
 	},
+
+  -- undo tree
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
+    keys = {
+      { "<leader>ou", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
+    }
+  }
 }
