@@ -64,10 +64,10 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- quit all
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+map("n", "<leader>qq","<cmd>qa<cr>", { desc = "Quit all"})
 
--- editor config files
-map("n", "<leader>oc", ":e $MYVIMRC<cr>", { desc = "Open config file" })
+-- editor config file
+map("n", "<leader>fc", "<cmd>edit $MYVIMRC<cr>", { desc = "Edit vimrc" })
 
 -- lazy
 map("n", "<leader>ol", "<cmd>Lazy<cr>", { desc = "Lazy" })
@@ -139,3 +139,14 @@ map("i", "<M-d>", function()
 
 	return "<C-o>dw"
 end, { desc = "Kill word", expr = true })
+
+map("i", "<C-k>", function()
+	local col = vim.api.nvim_win_get_cursor(0)[2]
+	local line = vim.api.nvim_get_current_line()
+
+	if #line <= col then
+		return "<Del>"
+	end
+
+	return "<C-o>d$"
+end, { desc = "Kill line", expr = true })
