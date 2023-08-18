@@ -39,12 +39,17 @@ return {
 			lspconfig.rust_analyzer.setup({
 				settings = {
 					["rust-analyzer"] = {
-						check = {
+						checkOnSave = {
 							command = "clippy",
+							extraArgs = {
+								"--no-deps",
+							},
+							allFeatures = true,
 						},
 					},
 				},
 			})
+			lspconfig.taplo = {}
 			lspconfig.gopls.setup({})
 			lspconfig.nil_ls.setup({})
 
@@ -246,7 +251,7 @@ return {
 				},
 			})
 
-      -- Auto format
+			-- Auto format
 			-- vim.api.nvim_create_autocmd("BufWritePre", {
 			-- 	group = vim.api.nvim_create_augroup("UserAutoFormat", {}),
 			-- 	callback = function()

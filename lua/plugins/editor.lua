@@ -139,7 +139,7 @@ return {
 			vim.keymap.set("n", "<leader>ff", extensions.file_browser.file_browser, { desc = "File browser" })
 			vim.keymap.set("n", "<leader>pp", extensions.project.project, { desc = "Project" })
 			vim.keymap.set("n", "<leader>ou", "<cmd>Telescope undo<cr>", { desc = "Undo tree" })
-			vim.keymap.set("n", "<M-x>", "<cmd>Telescope commands<cr>", { desc = "Commands" })
+			-- vim.keymap.set("n", "<M-x>", "<cmd>Telescope commands<cr>", { desc = "Commands" })
 		end,
 	},
 

@@ -27,6 +27,11 @@ return {
 			"hrsh7th/cmp-cmdline",
 			"onsails/lspkind.nvim",
 			"saadparwaiz1/cmp_luasnip",
+			{
+				"Saecki/crates.nvim",
+				event = { "BufRead Cargo.toml" },
+				config = true,
+			},
 		},
 		version = false, -- last release is way too old
 		event = "InsertEnter",
@@ -41,6 +46,7 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
+			local crates = require("crates")
 
 			cmp.setup({
 				formatting = {
@@ -109,8 +115,7 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 4 },
-				}, {
-					{ name = "buffer" },
+					{ name = "crates" },
 				}),
 			})
 
@@ -258,8 +263,15 @@ return {
 		},
 	},
 
+  -- codeium
+	{
+		"Exafunction/codeium.vim",
+		event = "BufEnter",
+	},
+
+  -- rust-tools
   {
-    "Exafunction/codeium.vim",
-    event = "BufEnter",
+    "simrat39/rust-tools.nvim",
+    lazy = true,
   }
 }
