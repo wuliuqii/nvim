@@ -116,6 +116,7 @@ return {
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 4 },
 					{ name = "crates" },
+          { name = "orgmode" },
 				}),
 			})
 

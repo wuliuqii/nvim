@@ -38,6 +38,10 @@ return {
         "vim",
         "vimdoc",
 
+        -- orgmode
+        "org",
+        "norg",
+
         -- go
         "go",
         "gomod",

@@ -25,6 +25,30 @@ return {
 		},
 	},
 
+	-- orgmode
+	{
+		"nvim-orgmode/orgmode",
+		ft = { "org" },
+    dependencies = {
+      {
+        "akinsho/org-bullets.nvim",
+        config = function()
+          require("org-bullets").setup()
+        end,
+      },
+    },
+		config = function()
+			require("orgmode").setup_ts_grammar()
+		end,
+	},
+
+	-- headlines
+	{
+		"lukas-reineke/headlines.nvim",
+		event = "VeryLazy",
+		config = true,
+	},
+
 	-- Neogit
 	{
 		"NeogitOrg/neogit",
