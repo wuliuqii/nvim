@@ -258,12 +258,12 @@ return {
 		end,
 	},
 
-  -- undo tree
-  {
-    "mbbill/undotree",
-    cmd = "UndotreeToggle",
-    keys = {
-      { "<leader>ou", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
-    }
-  }
+	-- undo tree
+	{
+		"mbbill/undotree",
+		cmd = "UndotreeToggle",
+		keys = {
+			{ "<leader>ou", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
+		},
+	},
 }
