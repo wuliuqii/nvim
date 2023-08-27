@@ -2,6 +2,14 @@ return {
 	{
 		"nvim-neorg/neorg",
 		cmd = { "Neorg" },
+		ft = { "norg" },
+		dependencies = {
+			{ "nvim-neorg/neorg-telescope" },
+			-- {
+			-- 	"lukas-reineke/headlines.nvim",
+			-- 	config = true,
+			-- },
+		},
 		keys = {
 			{ "<leader>oo", "<cmd>Neorg workspace notes<cr>", desc = "Neorg workspace" },
 		},
@@ -9,7 +17,24 @@ return {
 		opts = {
 			load = {
 				["core.defaults"] = {},
-				["core.concealer"] = {},
+				["core.autocommands"] = {},
+				-- ["core.esupports.metagen"] = {
+				-- 	config = {
+				-- 		type = "auto",
+				-- 	},
+				-- },
+				["core.concealer"] = {
+					config = {
+						icon_preset = "varied",
+						folds = true,
+					},
+				},
+				["core.export"] = {},
+				["core.export.markdown"] = {
+					config = {
+						extensions = { "all" },
+					},
+				},
 				["core.completion"] = {
 					config = { engine = "nvim-cmp" },
 				},
@@ -17,10 +42,12 @@ return {
 				["core.dirman"] = {
 					config = {
 						workspaces = {
-							notes = "~/orgs",
+							notes = "~/orgs/notes",
 						},
 					},
 				},
+				["core.integrations.telescope"] = {},
+				["core.integrations.treesitter"] = {},
 			},
 		},
 	},
@@ -29,24 +56,17 @@ return {
 	{
 		"nvim-orgmode/orgmode",
 		ft = { "org" },
-    dependencies = {
-      {
-        "akinsho/org-bullets.nvim",
-        config = function()
-          require("org-bullets").setup()
-        end,
-      },
-    },
+		dependencies = {
+			{
+				"akinsho/org-bullets.nvim",
+				config = function()
+					require("org-bullets").setup()
+				end,
+			},
+		},
 		config = function()
 			require("orgmode").setup_ts_grammar()
 		end,
-	},
-
-	-- headlines
-	{
-		"lukas-reineke/headlines.nvim",
-		event = "VeryLazy",
-		config = true,
 	},
 
 	-- Neogit

@@ -115,6 +115,7 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 4 },
+          { name = "neorg" },
 					{ name = "crates" },
           { name = "orgmode" },
 				}),
