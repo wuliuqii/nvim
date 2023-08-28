@@ -15,6 +15,16 @@ return {
 		},
 	},
 
+	-- file explore
+	{
+		"stevearc/oil.nvim",
+		cmd = { "Oil" },
+    opts = {},
+		keys = {
+			{ "<leader>od", "<cmd>Oil<cr>", desc = "Explorer Oil" },
+		},
+	},
+
 	-- Search/Replace
 	{
 		"nvim-pack/nvim-spectre",
