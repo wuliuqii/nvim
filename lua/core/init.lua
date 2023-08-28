@@ -5,6 +5,7 @@ package.path = vim.fn.stdpath("config") .. "/lua/plugins/configs/?/init.lua;" ..
 -- Set basic VIM configs
 require("core.options")
 require("core.keymaps")
+require("core.autocmd")
 
 -- Bootstrap Lazy.nvim
 require("core.lazy")
