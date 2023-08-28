@@ -209,55 +209,28 @@ return {
 		end,
 	},
 
-	-- Neoformat
+	-- format
 	{
-		"mhartington/formatter.nvim",
-		cmd = { "FormatWrite" },
+		"nvimdev/guard.nvim",
 		event = "VeryLazy",
-		keys = {
-			{ "<leader>lf", "<Cmd>FormatWrite<CR>", mode = { "v", "n" }, desc = "Format file" },
-		},
+		keys = { { "<leader>lf", "<cmd>GuardFmt<cr>", desc = "Guard format" } },
 		config = function()
-			require("formatter").setup({
-				-- Enable or disable logging
-				logging = true,
-				-- Set the log level
-				log_level = vim.log.levels.INFO,
-				-- All formatter configurations are opt-in
-				filetype = {
-					lua = {
-						require("formatter.filetypes.lua").stylua,
-					},
-					rust = {
-						require("formatter.filetypes.rust").rustfmt,
-					},
-					go = {
-						require("formatter.filetypes.go").gofmt,
-					},
-					nix = {
-						require("formatter.filetypes.nix").nixpkgs_fmt,
-					},
-					markdown = {
-						require("formatter.filetypes.markdown").prettier,
-					},
-
-					-- Use the special "*" filetype for defining formatter configurations on
-					-- any filetype
-					["*"] = {
-						-- "formatter.filetypes.any" defines default configurations for any
-						-- filetype
-						require("formatter.filetypes.any").remove_trailing_whitespace,
-					},
-				},
+			local ft = require("guard.filetype")
+			ft("rust"):fmt("rustfmt")
+			ft("go"):fmt("gofmt"):append("golines"):lint({
+				cmd = "golangci-lint",
+				stdin = true,
+			})
+			ft("lua"):fmt("stylua")
+			ft("nix"):fmt({
+				cmd = "nixpkgs-fmt",
+				stdin = true,
 			})
 
-			-- Auto format
-			-- vim.api.nvim_create_autocmd("BufWritePre", {
-			-- 	group = vim.api.nvim_create_augroup("UserAutoFormat", {}),
-			-- 	callback = function()
-			-- 		vim.cmd("FormatWrite")
-			-- 	end,
-			-- })
+			require("guard").setup({
+				fmt_on_save = true,
+				lsp_as_default_formatter = false,
+			})
 		end,
 	},
 
