@@ -5,6 +5,31 @@ return {
 		ft = { "norg" },
 		dependencies = {
 			{ "nvim-neorg/neorg-telescope" },
+			{
+				"3rd/image.nvim",
+				config = function()
+					require("image").setup({
+						backend = "kitty",
+						integrations = {
+							markdown = {
+								enabled = false,
+							},
+							neorg = {
+								enabled = true,
+                download_remote_images = true,
+								clear_in_insert_mode = false,
+							},
+						},
+						max_width = nil,
+						max_height = nil,
+						max_width_window_percentage = nil,
+						max_height_window_percentage = 50,
+						kitty_method = "normal",
+						window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+						window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+					})
+				end,
+			},
 			-- {
 			-- 	"lukas-reineke/headlines.nvim",
 			-- 	config = true,
@@ -44,30 +69,13 @@ return {
 						workspaces = {
 							notes = "~/orgs/notes",
 						},
-            default_workspace = "notes",
+						default_workspace = "notes",
 					},
 				},
 				["core.integrations.telescope"] = {},
 				["core.integrations.treesitter"] = {},
 			},
 		},
-	},
-
-	-- orgmode
-	{
-		"nvim-orgmode/orgmode",
-		ft = { "org" },
-		dependencies = {
-			{
-				"akinsho/org-bullets.nvim",
-				config = function()
-					require("org-bullets").setup()
-				end,
-			},
-		},
-		config = function()
-			require("orgmode").setup_ts_grammar()
-		end,
 	},
 
 	-- Neogit

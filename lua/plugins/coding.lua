@@ -115,9 +115,8 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 4 },
-          { name = "neorg" },
+					{ name = "neorg" },
 					{ name = "crates" },
-          { name = "orgmode" },
 				}),
 			})
 
@@ -265,15 +264,15 @@ return {
 		},
 	},
 
-  -- codeium
+	-- codeium
 	{
 		"Exafunction/codeium.vim",
 		event = "BufEnter",
 	},
 
-  -- rust-tools
-  {
-    "simrat39/rust-tools.nvim",
-    lazy = true,
-  }
+	-- rust-tools
+	{
+		"simrat39/rust-tools.nvim",
+		lazy = true,
+	},
 }
