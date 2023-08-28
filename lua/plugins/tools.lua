@@ -44,6 +44,7 @@ return {
 						workspaces = {
 							notes = "~/orgs/notes",
 						},
+            default_workspace = "notes",
 					},
 				},
 				["core.integrations.telescope"] = {},
@@ -87,9 +88,9 @@ return {
 			{
 				"<leader>ot",
 				"<Cmd>ToggleTerm size=16 dir=%d direction=float<CR>",
-				{ desc = "Toggle terminal" },
+				desc = "Toggle terminal",
 			},
-			{ "<leader>ot", "<Cmd>ToggleTerm<CR>", mode = "t" },
+			{ "<leader>ot", "<Cmd>ToggleTerm<CR>", mode = "t", desc = "Toggle terminal" },
 		},
 		config = function()
 			require("toggleterm").setup()
