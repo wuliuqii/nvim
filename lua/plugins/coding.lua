@@ -46,11 +46,10 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
-			local crates = require("crates")
 
 			cmp.setup({
 				formatting = {
-					format = lspkind.cmp_format(),
+					format = lspkind.cmp_format({}),
 				},
 				snippet = {
 					expand = function(args)
@@ -62,27 +61,27 @@ return {
 					documentation = cmp.config.window.bordered(),
 				},
 				mapping = cmp.mapping.preset.insert({
-					-- ["<Tab>"] = cmp.mapping(function(fallback)
-					-- 	if cmp.visible() then
-					-- 		cmp.select_next_item()
-					-- 	elseif luasnip.expand_or_jumpable() then
-					-- 		luasnip.expand_or_jump()
-					-- 	elseif has_words_before() then
-					-- 		cmp.complete()
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end, { "i", "s" }),
-					--
-					-- ["<S-Tab>"] = cmp.mapping(function(fallback)
-					-- 	if cmp.visible() then
-					-- 		cmp.select_prev_item()
-					-- 	elseif luasnip.jumpable(-1) then
-					-- 		luasnip.jump(-1)
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end, { "i", "s" }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.jumpable(1) then
+							luasnip.jump(1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						elseif has_words_before() then
+							cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 
 					["<C-n>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
@@ -274,5 +273,17 @@ return {
 	{
 		"simrat39/rust-tools.nvim",
 		lazy = true,
+	},
+
+	-- go
+	{
+		"ray-x/go.nvim",
+		ft = { "go", "gomod" },
+		dependencies = {
+			"ray-x/guihua.lua",
+		},
+		config = function()
+			require("go").setup()
+		end,
 	},
 }

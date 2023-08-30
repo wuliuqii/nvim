@@ -19,7 +19,7 @@ return {
 	{
 		"stevearc/oil.nvim",
 		cmd = { "Oil" },
-    opts = {},
+		opts = {},
 		keys = {
 			{ "<leader>od", "<cmd>Oil<cr>", desc = "Explorer Oil" },
 		},
