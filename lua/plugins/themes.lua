@@ -87,7 +87,7 @@ return {
 
 	-- Nord
 	{
-		"wuliuqii/nord.nvim",
+		"shaunsingh/nord.nvim",
 		lazy = true,
 	},
 

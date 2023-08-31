@@ -1,0 +1,6 @@
+{
+  "test": {
+    "prefix": "test",
+    "body": "panic(\"unimplemented!\") // TODO: implement me\n"
+  }
+}

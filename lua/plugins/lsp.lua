@@ -226,6 +226,7 @@ return {
 				cmd = "nixpkgs-fmt",
 				stdin = true,
 			})
+			ft("json"):fmt("prettierd")
 
 			require("guard").setup({
 				fmt_on_save = true,
