@@ -53,6 +53,10 @@ return {
 		},
 		config = function()
 			require("telescope").setup({
+				-- FIXME: https://github.com/nvim-telescope/telescope.nvim/issues/2667
+				defaults = {
+					sorting_strategy = "ascending",
+				},
 				pickers = {
 					current_buffer_fuzzy_find = {
 						winblend = 10,
@@ -140,6 +144,12 @@ return {
 			-- Extensions keymaps
 			vim.keymap.set("n", "<leader>ff", extensions.file_browser.file_browser, { desc = "File browser" })
 			vim.keymap.set("n", "<leader>pp", extensions.project.project, { desc = "Project" })
+			vim.keymap.set(
+				"n",
+				"<leader>ss",
+				"<cmd>Telescope lsp_workspace_symbols<cr>",
+				{ desc = "Workspace symbols" }
+			)
 			-- vim.keymap.set("n", "<M-x>", "<cmd>Telescope commands<cr>", { desc = "Commands" })
 		end,
 	},
