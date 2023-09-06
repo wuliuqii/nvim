@@ -53,10 +53,6 @@ return {
 		},
 		config = function()
 			require("telescope").setup({
-				-- FIXME: https://github.com/nvim-telescope/telescope.nvim/issues/2667
-				defaults = {
-					sorting_strategy = "ascending",
-				},
 				pickers = {
 					current_buffer_fuzzy_find = {
 						winblend = 10,
