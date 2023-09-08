@@ -50,7 +50,11 @@ return {
 
 			cmp.setup({
 				formatting = {
-					format = lspkind.cmp_format({}),
+					format = lspkind.cmp_format({
+						mode = "symbol",
+						max_width = 50,
+						symbol_map = { Copilot = "" },
+					}),
 				},
 				snippet = {
 					expand = function(args)
@@ -63,7 +67,11 @@ return {
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<Tab>"] = cmp.mapping(function(fallback)
-						if luasnip.jumpable(1) then
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif has_words_before() then
+							cmp.complete()
+						elseif luasnip.jumpable(1) then
 							luasnip.jump(1)
 						else
 							fallback()
@@ -75,8 +83,6 @@ return {
 							cmp.select_prev_item()
 						elseif luasnip.jumpable(-1) then
 							luasnip.jump(-1)
-						elseif has_words_before() then
-							cmp.complete()
 						else
 							fallback()
 						end
@@ -108,6 +114,7 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
+					{ name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "nvim_lua" },
 					{ name = "luasnip" },
@@ -265,7 +272,29 @@ return {
 	-- codeium
 	{
 		"Exafunction/codeium.vim",
+		enabled = false,
 		event = "BufEnter",
+	},
+
+	-- copilot
+	{
+		-- https://github.com/pengzhile/cocopilot
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+			})
+		end,
+	},
+
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
 	},
 
 	-- rust-tools
