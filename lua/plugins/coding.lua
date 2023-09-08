@@ -297,6 +297,15 @@ return {
 		end,
 	},
 
+	{
+		"jackMort/ChatGPT.nvim",
+		enabled = false,
+		event = "VeryLazy",
+		config = function()
+			require("chatgpt").setup({})
+		end,
+	},
+
 	-- rust-tools
 	{
 		"simrat39/rust-tools.nvim",
