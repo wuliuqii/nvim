@@ -16,7 +16,7 @@ opt.conceallevel = 2
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
-opt.formatoptions = "jcroqlnt" -- tcqj
+-- opt.formatoptions = "jqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 opt.ignorecase = true -- Ignore case
@@ -89,3 +89,10 @@ if vim.g.neovide then
 	vim.g.neovide_scale_factor = 1.2
 	vim.g.neovide_hide_mouse_when_typing = true
 end
+
+-- disable new line comments
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function()
+		vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
+	end,
+})

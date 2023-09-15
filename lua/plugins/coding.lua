@@ -69,8 +69,6 @@ return {
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-						elseif has_words_before() then
-							cmp.complete()
 						elseif luasnip.jumpable(1) then
 							luasnip.jump(1)
 						else
@@ -81,6 +79,8 @@ return {
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
+						elseif has_words_before() then
+							cmp.complete()
 						elseif luasnip.jumpable(-1) then
 							luasnip.jump(-1)
 						else
@@ -278,7 +278,6 @@ return {
 
 	-- copilot
 	{
-		-- https://github.com/pengzhile/cocopilot
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		event = "InsertEnter",
