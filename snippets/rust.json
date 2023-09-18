@@ -1,13 +1,18 @@
 {
   "leetcode-with-return": {
     "prefix": "solu-ret",
-    "body": "struct Solution;\n\nimpl Solution {\n    pub fn ${1:fn_name}(${2:args}) -> ${3:ret_type} {\n        ${4:// code}\n    }\n}\n",
+    "body": "struct Solution;\n\n#[allow(dead_code)]\nimpl Solution {\n    pub fn ${1:fn_name}(${2:args}: ${3:type}) -> ${4:ret_type} {\n        ${5:// code}\n    }\n}\n",
     "description": "leetcode solution with return template"
   },
   "leetcode-without-return": {
     "prefix": "solu",
-    "body": "struct Solution;\n\nimpl Solution {\n    pub fn ${1:fn_name}(${2:args}) {\n        ${3:// code}\n    }\n}\n",
+    "body": "struct Solution;\n\n#[allow(dead_code)]\nimpl Solution {\n    pub fn ${1:fn_name}(${2:args}: ${3:type}) {\n        ${4:// code}\n    }\n}\n",
     "description": "leetcode solution without return template"
+  },
+  "function-without-return": {
+    "prefix": "func",
+    "body": "fn ${1:fn_name}(${2:args}: ${3:type}) {\n    ${4:// code}\n}\n",
+    "description": "function without return template"
   },
   "enum": {
     "prefix": "enum",
