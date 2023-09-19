@@ -10,10 +10,16 @@ return {
 				opts = {},
 			},
 		},
-		config = function(_, opts)
+		config = function()
 			-- Setup language servers
 			local lspconfig = require("lspconfig")
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+			capabilities.textDocument.completion.completionItem.resolveSupport = {
+				properties = { "documentation", "detail", "additionalTextEdits" },
+			}
 			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
 				settings = {
 					Lua = {
 						runtime = {
@@ -37,8 +43,14 @@ return {
 				},
 			})
 			lspconfig.rust_analyzer.setup({
+				capabilities = capabilities,
 				settings = {
 					["rust-analyzer"] = {
+						cargo = {
+							allFeatures = true,
+							loadOutDirsFromCheck = true,
+							runBuildScripts = true,
+						},
 						checkOnSave = {
 							command = "clippy",
 							extraArgs = {
@@ -46,12 +58,58 @@ return {
 							},
 							allFeatures = true,
 						},
+						procMacro = {
+							enable = true,
+							ignored = {
+								["async-trait"] = { "async_trait" },
+								["napi-derive"] = { "napi" },
+								["async-recursion"] = { "async_recursion" },
+							},
+						},
 					},
 				},
 			})
 			lspconfig.taplo = {}
-			lspconfig.gopls.setup({})
-			lspconfig.nil_ls.setup({})
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+				settings = {
+					gopls = {
+						gofumpt = true,
+						codelenses = {
+							gc_details = false,
+							generate = true,
+							regenerate_cgo = true,
+							run_govulncheck = true,
+							test = true,
+							tidy = true,
+							upgrade_dependency = true,
+							vendor = true,
+						},
+						hints = {
+							assignVariableTypes = true,
+							compositeLiteralFields = true,
+							compositeLiteralTypes = true,
+							constantValues = true,
+							functionTypeParameters = true,
+							parameterNames = true,
+							rangeVariableTypes = true,
+						},
+						analyses = {
+							fieldalignment = true,
+							nilness = true,
+							unusedparams = true,
+							unusedwrite = true,
+							useany = true,
+						},
+						usePlaceholders = true,
+						completeUnimported = true,
+						staticcheck = true,
+						directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+						semanticTokens = true,
+					},
+				},
+			})
+			lspconfig.nil_ls.setup({ capabilities = capabilities })
 
 			-- Diagnostics
 			local signs = {
@@ -209,10 +267,27 @@ return {
 		end,
 	},
 
+	-- lsp signature
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "LspAttach",
+		config = function()
+			require("lsp_signature").setup({
+				bind = true,
+				handler_opts = {
+					border = "rounded",
+				},
+			})
+		end,
+	},
+
 	-- format
 	{
 		"nvimdev/guard.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"nvimdev/guard-collection",
+		},
 		keys = { { "<leader>lf", "<cmd>GuardFmt<cr>", desc = "Guard format" } },
 		config = function()
 			local ft = require("guard.filetype")
@@ -226,7 +301,7 @@ return {
 				cmd = "nixpkgs-fmt",
 				stdin = true,
 			})
-			ft("json"):fmt("prettierd")
+			ft("json"):fmt("prettier")
 
 			require("guard").setup({
 				fmt_on_save = true,

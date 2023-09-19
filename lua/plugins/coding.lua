@@ -47,6 +47,10 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+			-- insert `(` after select function or method item
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 			cmp.setup({
 				formatting = {
@@ -65,6 +69,10 @@ return {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
 				},
+				completion = {
+					completeopt = "menu,menuone,noinsert",
+				},
+				experimental = { ghost_text = true },
 				mapping = cmp.mapping.preset.insert({
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
@@ -138,8 +146,8 @@ return {
 
 	-- Autopairs
 	{
-		"echasnovski/mini.pairs",
-		event = "VeryLazy",
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
 		opts = {},
 	},
 
