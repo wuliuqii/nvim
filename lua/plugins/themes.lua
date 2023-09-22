@@ -61,45 +61,15 @@ return {
 		lazy = true,
 	},
 
-	-- Kanagawa
-	{
-		"rebelot/kanagawa.nvim",
-		lazy = true,
-	},
-
-	-- Gruvbox Material
-	{
-		"ellisonleao/gruvbox.nvim",
-		lazy = true,
-	},
-
 	-- VSCode (Dark+ and Light+)
 	{
 		"Mofiqul/vscode.nvim",
 		lazy = true,
 	},
 
-	-- Melange
-	{
-		"savq/melange-nvim",
-		lazy = true,
-	},
-
 	-- Nord
 	{
 		"shaunsingh/nord.nvim",
-		lazy = true,
-	},
-
-	-- Nightfly
-	{
-		"bluz71/vim-nightfly-colors",
-		lazy = true,
-	},
-
-	-- Moonfly
-	{
-		"bluz71/vim-moonfly-colors",
 		lazy = true,
 	},
 
@@ -131,13 +101,6 @@ return {
 	{
 		"rose-pine/neovim",
 		lazy = true,
-	},
-
-	-- Bluloco
-	{
-		"uloco/bluloco.nvim",
-		lazy = true,
-		dependencies = { "rktjmp/lush.nvim" },
 	},
 
 	-- Solarized

@@ -9,10 +9,20 @@
     "body": "struct Solution;\n\n#[allow(dead_code)]\nimpl Solution {\n    pub fn ${1:fn_name}(${2:args}: ${3:type}) {\n        ${4:// code}\n    }\n}\n",
     "description": "leetcode solution without return template"
   },
+  "leetcode-test": {
+    "prefix": "test",
+    "body": "#[test]\nfn test() {\n    let test_cases = vec![\n        ${1:case}\n    ];\n\n    ${2:check}\n}\n",
+    "description": "leetcode test template"
+  },
   "function-without-return": {
     "prefix": "func",
     "body": "fn ${1:fn_name}(${2:args}: ${3:type}) {\n    ${4:// code}\n}\n",
     "description": "function without return template"
+  },
+  "Veci32": {
+    "prefix": "vi32",
+    "body": "Vec<i32>",
+    "description": "Vec<i32> template"
   },
   "enum": {
     "prefix": "enum",
