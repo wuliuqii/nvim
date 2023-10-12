@@ -189,29 +189,6 @@ return {
 		end,
 	},
 
-	-- Indent blankline
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = {
-			filetype_exclude = {
-				"help",
-				"alpha",
-				"dashboard",
-				"neo-tree",
-				"Trouble",
-				"lazy",
-				"mason",
-				"notify",
-				"toggleterm",
-				"lazyterm",
-			},
-			show_end_of_line = true,
-			show_current_context = true,
-			use_treesitter_scope = true,
-		},
-	},
-
 	-- Bufferline
 	{
 		"akinsho/bufferline.nvim",
