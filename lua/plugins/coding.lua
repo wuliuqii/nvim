@@ -56,8 +56,10 @@ return {
 				formatting = {
 					format = lspkind.cmp_format({
 						mode = "symbol",
-						max_width = 50,
+						maxwidth = 30,
+						ellipsis_char = "...",
 						symbol_map = { Copilot = "" },
+						show_labelDetails = true,
 					}),
 				},
 				snippet = {
