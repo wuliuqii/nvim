@@ -50,9 +50,13 @@ return {
 			"nvim-telescope/telescope-ui-select.nvim",
 			"nvim-telescope/telescope-symbols.nvim",
 			"nvim-telescope/telescope-project.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		config = function()
 			require("telescope").setup({
+				defaults = {
+					path_display = { "smart" },
+				},
 				pickers = {
 					current_buffer_fuzzy_find = {
 						winblend = 10,
@@ -104,6 +108,7 @@ return {
 			require("telescope").load_extension("ui-select")
 			require("telescope").load_extension("notify")
 			require("telescope").load_extension("project")
+			require("telescope").load_extension("fzf")
 
 			-- keymaps
 			local builtin = require("telescope.builtin")
@@ -122,6 +127,7 @@ return {
 				builtin.find_files({ cwd = git_toplevel })
 			end, { desc = "Find files" })
 			vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "Git files" })
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
 			vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
 			vim.keymap.set("n", "<leader>/", function()
 				local git_toplevel =
@@ -138,7 +144,7 @@ return {
 			vim.keymap.set("n", "#", fuzzy_find_under_cursor, { desc = "Fuzzy find in file" })
 
 			-- Extensions keymaps
-			vim.keymap.set("n", "<leader>ff", extensions.file_browser.file_browser, { desc = "File browser" })
+			vim.keymap.set("n", "<leader>fb", extensions.file_browser.file_browser, { desc = "File browser" })
 			vim.keymap.set("n", "<leader>pp", extensions.project.project, { desc = "Project" })
 			vim.keymap.set(
 				"n",
@@ -146,7 +152,7 @@ return {
 				"<cmd>Telescope lsp_workspace_symbols<cr>",
 				{ desc = "Workspace symbols" }
 			)
-			-- vim.keymap.set("n", "<M-x>", "<cmd>Telescope commands<cr>", { desc = "Commands" })
+			vim.keymap.set("n", "<M-x>", "<cmd>Telescope commands<cr>", { desc = "Commands" })
 		end,
 	},
 

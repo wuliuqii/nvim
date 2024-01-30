@@ -195,7 +195,14 @@ return {
 		version = false,
 		event = "VeryLazy",
 		config = function()
-			require("mini.comment").setup()
+			require("mini.comment").setup({
+				mappings = {
+					comment = "<C-c>",
+					comment_line = "<C-c>",
+					comment_visual = "<C-c>",
+					textobject = "<C-c>",
+				},
+			})
 		end,
 	},
 

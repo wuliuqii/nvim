@@ -1,4 +1,4 @@
-COLORSCHEME = "nord"
+COLORSCHEME = "catppuccin-macchiato"
 
 require("lazy").setup({
 	require("plugins.editor"),
