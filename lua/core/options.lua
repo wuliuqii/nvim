@@ -72,12 +72,12 @@ vim.g.loader_ruby_provider = 0
 vim.g.loader_node_provider = 0
 
 vim.opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
-	fold = " ",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ",
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
 }
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
@@ -85,14 +85,14 @@ vim.o.foldenable = true
 vim.o.foldcolumn = "0"
 
 if vim.g.neovide then
-	vim.opt.guifont = { "JetBrainsMono Nerd Font Mono", ":h12" }
-	vim.g.neovide_scale_factor = 1.2
-	vim.g.neovide_hide_mouse_when_typing = true
+  vim.opt.guifont = { "JetBrainsMono Nerd Font Mono", ":h12" }
+  vim.g.neovide_scale_factor = 1.2
+  vim.g.neovide_hide_mouse_when_typing = true
 end
 
 -- disable new line comments
 vim.api.nvim_create_autocmd("BufEnter", {
-	callback = function()
-		vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
-	end,
+  callback = function()
+    vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
+  end,
 })

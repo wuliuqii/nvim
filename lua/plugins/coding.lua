@@ -1,342 +1,173 @@
 return {
-	-- Luasnip
-	{
-		"L3MON4D3/LuaSnip",
-		version = "2.*",
-		event = "VeryLazy",
-		dependencies = {
-			"rafamadriz/friendly-snippets",
-		},
-		config = function()
-			require("luasnip").setup({
-				history = true,
-				delete_check_events = "TextChanged",
-			})
-			require("luasnip.loaders.from_vscode").lazy_load()
-			require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/" } })
-		end,
-	},
+  -- Cmp
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "onsails/lspkind.nvim",
+      "saadparwaiz1/cmp_luasnip",
+      {
+        "L3MON4D3/LuaSnip",
+        version = "2.*",
+        dependencies = {
+          {
+            "rafamadriz/friendly-snippets",
+            config = function()
+              require("luasnip.loaders.from_vscode").lazy_load()
+              require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/" } })
+            end,
+          },
+        },
+        opts = {
+          history = true,
+          delete_check_events = "TextChanged",
+        },
+      },
+      {
+        "Saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        config = true,
+      },
+    },
+    version = false, -- last release is way too old
+    event = "InsertEnter",
+    config = require("config.cmp"),
+  },
 
-	-- Cmp
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			"onsails/lspkind.nvim",
-			"saadparwaiz1/cmp_luasnip",
-			{
-				"Saecki/crates.nvim",
-				event = { "BufRead Cargo.toml" },
-				config = true,
-			},
-		},
-		version = false, -- last release is way too old
-		event = "InsertEnter",
-		config = function()
-			local has_words_before = function()
-				unpack = unpack or table.unpack
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
+  },
 
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			local lspkind = require("lspkind")
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+  -- Fast and feature-rich surround actions. For text that includes
+  -- surrounding characters like brackets or quotes, this allows you
+  -- to select the text inside, change or modify the surrounding characters,
+  -- and more.
+  {
+    "echasnovski/mini.surround",
+    event = "VeryLazy",
+    keys = function(_, keys)
+      -- Populate the keys based on the user's options
+      local plugin = require("lazy.core.config").spec.plugins["mini.surround"]
+      local opts = require("lazy.core.plugin").values(plugin, "opts", false)
+      local mappings = {
+        { opts.mappings.add, desc = "Add surrounding", mode = { "n", "v" } },
+        { opts.mappings.delete, desc = "Delete surrounding" },
+        { opts.mappings.find, desc = "Find right surrounding" },
+        { opts.mappings.find_left, desc = "Find left surrounding" },
+        { opts.mappings.highlight, desc = "Highlight surrounding" },
+        { opts.mappings.replace, desc = "Replace surrounding" },
+        { opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
+      }
+      mappings = vim.tbl_filter(function(m)
+        return m[1] and #m[1] > 0
+      end, mappings)
+      return vim.list_extend(mappings, keys)
+    end,
+    opts = {
+      mappings = {
+        add = "gsa", -- Add surrounding in Normal and Visual modes
+        delete = "gsd", -- Delete surrounding
+        find = "gsf", -- Find surrounding (to the right)
+        find_left = "gsF", -- Find surrounding (to the left)
+        highlight = "gsh", -- Highlight surrounding
+        replace = "gsr", -- Replace surrounding
+        update_n_lines = "gsn", -- Update `n_lines`
+      },
+    },
+  },
 
-			-- insert `(` after select function or method item
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+  -- Comment
+  {
+    "echasnovski/mini.comment",
+    event = "VeryLazy",
+    opts = {
+      mappings = {
+        comment = "<C-c>",
+        comment_line = "<C-c>",
+        comment_visual = "<C-c>",
+        textobject = "<C-c>",
+      },
+    },
+  },
 
-			cmp.setup({
-				formatting = {
-					format = lspkind.cmp_format({
-						mode = "symbol",
-						maxwidth = 30,
-						ellipsis_char = "...",
-						symbol_map = { Copilot = "" },
-						show_labelDetails = true,
-					}),
-				},
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body) -- For `luasnip` users.
-					end,
-				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-				completion = {
-					completeopt = "menu,menuone,noinsert",
-				},
-				experimental = { ghost_text = true },
-				mapping = cmp.mapping.preset.insert({
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.jumpable(1) then
-							luasnip.jump(1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
+  -- Better text-objects
+  {
+    "echasnovski/mini.ai",
+    -- keys = {
+    --   { "a", mode = { "x", "o" } },
+    --   { "i", mode = { "x", "o" } },
+    -- },
+    event = "VeryLazy",
+    dependencies = { "nvim-treesitter-textobjects" },
+    config = require("config.mini_ai"),
+  },
 
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif has_words_before() then
-							cmp.complete()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
+  {
+    "echasnovski/mini.align",
+    version = false,
+    opts = {},
+  },
 
-					["<C-n>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
-							luasnip.expand_or_jump()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					["<C-p>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<Esc>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-				}),
-				sources = cmp.config.sources({
-					{ name = "copilot" },
-					{ name = "nvim_lsp" },
-					{ name = "nvim_lua" },
-					{ name = "luasnip" },
-					{ name = "path" },
-					{ name = "buffer", keyword_length = 4 },
-					{ name = "neorg" },
-					{ name = "crates" },
-				}),
-			})
-
-			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({
-					{ name = "path" },
-				}, {
-					{ name = "cmdline" },
-				}),
-			})
-		end,
-	},
-
-	-- Autopairs
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {},
-	},
-
-	-- Fast and feature-rich surround actions. For text that includes
-	-- surrounding characters like brackets or quotes, this allows you
-	-- to select the text inside, change or modify the surrounding characters,
-	-- and more.
-	{
-		"echasnovski/mini.surround",
-		event = "VeryLazy",
-		keys = function(_, keys)
-			-- Populate the keys based on the user's options
-			local plugin = require("lazy.core.config").spec.plugins["mini.surround"]
-			local opts = require("lazy.core.plugin").values(plugin, "opts", false)
-			local mappings = {
-				{ opts.mappings.add, desc = "Add surrounding", mode = { "n", "v" } },
-				{ opts.mappings.delete, desc = "Delete surrounding" },
-				{ opts.mappings.find, desc = "Find right surrounding" },
-				{ opts.mappings.find_left, desc = "Find left surrounding" },
-				{ opts.mappings.highlight, desc = "Highlight surrounding" },
-				{ opts.mappings.replace, desc = "Replace surrounding" },
-				{ opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
-			}
-			mappings = vim.tbl_filter(function(m)
-				return m[1] and #m[1] > 0
-			end, mappings)
-			return vim.list_extend(mappings, keys)
-		end,
-		opts = {
-			mappings = {
-				add = "gsa", -- Add surrounding in Normal and Visual modes
-				delete = "gsd", -- Delete surrounding
-				find = "gsf", -- Find surrounding (to the right)
-				find_left = "gsF", -- Find surrounding (to the left)
-				highlight = "gsh", -- Highlight surrounding
-				replace = "gsr", -- Replace surrounding
-				update_n_lines = "gsn", -- Update `n_lines`
-			},
-		},
-	},
-
-	-- Comment
-	{
-		"echasnovski/mini.comment",
-		version = false,
-		event = "VeryLazy",
-		config = function()
-			require("mini.comment").setup({
-				mappings = {
-					comment = "<C-c>",
-					comment_line = "<C-c>",
-					comment_visual = "<C-c>",
-					textobject = "<C-c>",
-				},
-			})
-		end,
-	},
-
-	-- Better text-objects
-	{
-		"echasnovski/mini.ai",
-		-- keys = {
-		--   { "a", mode = { "x", "o" } },
-		--   { "i", mode = { "x", "o" } },
-		-- },
-		event = "VeryLazy",
-		dependencies = { "nvim-treesitter-textobjects" },
-		opts = function()
-			local ai = require("mini.ai")
-			return {
-				n_lines = 500,
-				custom_textobjects = {
-					o = ai.gen_spec.treesitter({
-						a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-						i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-					}, {}),
-					f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-					c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-				},
-			}
-		end,
-		config = function(_, opts)
-			require("mini.ai").setup(opts)
-		end,
-	},
-
-	-- Better diagnostics list and others
-	{
-		"folke/trouble.nvim",
-		cmd = { "TroubleToggle", "Trouble" },
-		opts = {
-			height = 15,
-			action_keys = {
-				jump = { "o", "<tab>" },
-				jump_close = { "<cr>" },
-			},
-			use_diagnostic_signs = true,
-		},
-		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle<cr>", desc = "Trouble" },
-			{ "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Trouble workspace" },
-			{ "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Trouble document" },
-			{ "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Trouble loclist" },
-			{ "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Trouble quickfix" },
-			{ "<leader>xr", "<cmd>TroubleToggle lsp_references<cr>", desc = "Trouble lsp_references" },
-			{
-				"[q",
-				function()
-					if require("trouble").is_open() then
-						require("trouble").previous({ skip_groups = true, jump = true })
-					else
-						local ok, err = pcall(vim.cmd.cprev)
-						if not ok then
-							vim.notify(err, vim.log.levels.ERROR)
-						end
-					end
-				end,
-				desc = "Previous trouble/quickfix item",
-			},
-			{
-				"]q",
-				function()
-					if require("trouble").is_open() then
-						require("trouble").next({ skip_groups = true, jump = true })
-					else
-						local ok, err = pcall(vim.cmd.cnext)
-						if not ok then
-							vim.notify(err, vim.log.levels.ERROR)
-						end
-					end
-				end,
-				desc = "Next trouble/quickfix item",
-			},
-		},
-	},
-
-	-- codeium
-	{
-		"Exafunction/codeium.vim",
-		enabled = false,
-		event = "BufEnter",
-	},
-
-	-- copilot
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({
-				suggestion = { enabled = false },
-				panel = { enabled = false },
-			})
-		end,
-	},
-
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
-
-	{
-		"jackMort/ChatGPT.nvim",
-		enabled = false,
-		event = "VeryLazy",
-		config = function()
-			require("chatgpt").setup({})
-		end,
-	},
-
-	-- rust-tools
-	{
-		"simrat39/rust-tools.nvim",
-		lazy = true,
-	},
-
-	-- go
-	{
-		"ray-x/go.nvim",
-		ft = { "go", "gomod" },
-		dependencies = {
-			"ray-x/guihua.lua",
-		},
-		config = function()
-			require("go").setup()
-		end,
-	},
+  -- copilot
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
+    "jellydn/CopilotChat.nvim",
+    branch = "canary", -- Will be merged to main branch when it's stable
+    opts = {
+      mode = "split", -- newbuffer or split, default: newbuffer
+      show_help = "yes", -- Show help text for CopilotChatInPlace, default: yes
+      prompts = {
+        Explain = "Please explain how the following code works.",
+        Review = "Please review the following code and provide suggestions for improvement.",
+        Tests = "Please explain how the selected code works, then generate unit tests for it.",
+        Refactor = "Please refactor the following code to improve its clarity and readability.",
+        -- Text related prompts
+        Summarize = "Please summarize the following text.",
+        Spelling = "Please correct any grammar and spelling errors in the following text.",
+        Wording = "Please improve the grammar and wording of the following text.",
+        Concise = "Please rewrite the following text to make it more concise.",
+      },
+    },
+    build = function()
+      vim.defer_fn(function()
+        vim.cmd("UpdateRemotePlugins")
+        vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
+      end, 3000)
+    end,
+    event = "VeryLazy",
+    keys = {
+      { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+      { "<leader>ct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+      { "<leader>cr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
+      { "<leader>cR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
+      { "<leader>cs", "<cmd>CopilotChatSummarize<cr>", desc = "CopilotChat - Summarize text" },
+      { "<leader>cS", "<cmd>CopilotChatSpelling<cr>", desc = "CopilotChat - Correct spelling" },
+      { "<leader>cw", "<cmd>CopilotChatWording<cr>", desc = "CopilotChat - Improve wording" },
+      { "<leader>cc", "<cmd>CopilotChatConcise<cr>", desc = "CopilotChat - Make text concise" },
+    },
+  },
 }

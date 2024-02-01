@@ -1,337 +1,219 @@
 return {
-	-- Dashboard
-	{
-		"glepnir/dashboard-nvim",
-		event = "VimEnter",
-		config = function()
-			local builtin = require("telescope.builtin")
-			local extensions = require("telescope").extensions
-			require("dashboard").setup({
-				theme = "doom",
-				config = {
-					header = {
-						[[          ____          ]],
-						[[         /.../\         ]],
-						[[        /.../--\        ]],
-						[[       /.../----\       ]],
-						[[      /.../------\      ]],
-						[[     /.../---/\---\     ]],
-						[[    /.../---/\\\---\    ]],
-						[[   /.../---/\\\\\---\   ]],
-						[[  /.../===/__\\\\\---\  ]],
-						[[ /............\\\\\---\ ]],
-						[[/..............\\\\\---\]],
-						[[\\\\\\\\\\\\\\\\\\\\\--/]],
-						[[ \\\\\\\\\\\\\\\\\\\\\/ ]],
-						[[                        ]],
-					},
-					center = {
-						{
-							icon = "  ",
-							icon_hl = "Title",
-							desc = "Recent Files",
-							desc_hl = "String",
-							key = "r",
-							keymap = "",
-							key_hl = "Number",
-							action = builtin.oldfiles,
-						},
-						{
-							icon = "  ",
-							icon_hl = "Title",
-							desc = "Projects",
-							desc_hl = "String",
-							key = "p",
-							keymap = "",
-							key_hl = "Number",
-							action = extensions.project.project,
-						},
-						{
-							icon = "  ",
-							icon_hl = "Title",
-							desc = "File Browser",
-							desc_hl = "String",
-							key = "b",
-							keymap = "",
-							key_hl = "Number",
-							action = extensions.file_browser.file_browser,
-						},
-						{
-							icon = "  ",
-							icon_hl = "Title",
-							desc = "Themes",
-							desc_hl = "String",
-							key = "t",
-							keymap = "",
-							key_hl = "Number",
-							action = builtin.colorscheme,
-						},
-						{
-							icon = "  ",
-							icon_hl = "Title",
-							desc = "Plugins",
-							desc_hl = "String",
-							key = "u",
-							keymap = "",
-							key_hl = "Number",
-							action = function()
-								vim.cmd("Lazy")
-							end,
-						},
-					},
-				},
-			})
-		end,
-	},
+  -- Dashboard
+  {
+    "glepnir/dashboard-nvim",
+    event = "VimEnter",
+    opts = require("config.dashboard"),
+  },
 
-	-- Better `vim.notify()`
-	{
-		"rcarriga/nvim-notify",
-		keys = {
-			{
-				"<leader>un",
-				function()
-					require("notify").dismiss({ silent = true, pending = true })
-				end,
-				desc = "Dismiss all Notifications",
-			},
-		},
-		opts = {
-			timeout = 3000,
-			max_height = function()
-				return math.floor(vim.o.lines * 0.75)
-			end,
-			max_width = function()
-				return math.floor(vim.o.columns * 0.75)
-			end,
-		},
-	},
+  -- Better `vim.notify()`
+  {
+    "rcarriga/nvim-notify",
+    keys = {
+      {
+        "<leader>un",
+        function()
+          require("notify").dismiss({ silent = true, pending = true })
+        end,
+        desc = "Dismiss all Notifications",
+      },
+    },
+    opts = {
+      timeout = 3000,
+      max_height = function()
+        return math.floor(vim.o.lines * 0.75)
+      end,
+      max_width = function()
+        return math.floor(vim.o.columns * 0.75)
+      end,
+    },
+  },
 
-	-- better vim.ui
-	{
-		"stevearc/dressing.nvim",
-		lazy = true,
-		init = function()
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.select = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.select(...)
-			end
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.input = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.input(...)
-			end
-		end,
-	},
+  -- better vim.ui
+  {
+    "stevearc/dressing.nvim",
+    lazy = true,
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.input(...)
+      end
+    end,
+  },
 
-	-- Status line
-	{
-		"nvim-lualine/lualine.nvim",
-		opts = function()
-			return {
-				options = {
-					theme = "auto",
-					globalstatus = true,
-					disabled_filetypes = { statusline = { "dashboard", "alpha" } },
-					section_separators = { left = "", right = "" },
-					component_separators = { left = "", right = "" },
-				},
-				sections = {
-					lualine_a = { "mode" },
-					lualine_b = { "branch" },
-					lualine_c = {
-						{
-							"diagnostics",
-							symbols = {
-								Error = " ",
-								Warn = " ",
-								Hint = " ",
-								Info = " ",
-							},
-						},
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ "filename", path = 0 },
-					},
-					lualine_x = {
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.command.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.mode.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-            },
-						{ require("lazy.status").updates, cond = require("lazy.status").has_updates },
-						{
-							"diff",
-							symbols = {
-								added = " ",
-								modified = " ",
-								removed = " ",
-							},
-						},
-					},
-					lualine_y = {
-						{ "progress", separator = " ", padding = { left = 1, right = 0 } },
-						{ "location", padding = { left = 0, right = 1 } },
-					},
-					lualine_z = {
-						function()
-							return " " .. os.date("%R")
-						end,
-					},
-				},
-				extensions = { "neo-tree", "lazy" },
-			}
-		end,
-	},
+  -- Status line
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.g.lualine_laststatus = vim.o.laststatus
+      if vim.fn.argc(-1) > 0 then
+        -- set an empty statusline till lualine loads
+        vim.o.statusline = " "
+      else
+        -- hide the statusline on the starter page
+        vim.o.laststatus = 0
+      end
+    end,
+    opts = require("config.lualine"),
+  },
 
-	-- Bufferline
-	{
-		"akinsho/bufferline.nvim",
-		event = "VeryLazy",
-		keys = {
-			{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-			{ "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-			-- Buffer-picking mode
-			{ "<leader>tp", "<Cmd>BufferLinePick<CR>", { desc = "Pick tab" } },
-			{ "<leader>tc", "<Cmd>BufferLinePickClose<CR>", { desc = "Pick tab close" } },
-		},
-		opts = {
-			options = {
+  -- Bufferline
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    keys = {
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
+      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
+      { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", desc = "Delete other buffers" },
+      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete buffers to the right" },
+      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete buffers to the left" },
+      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
+      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
+      -- Buffer-picking mode
+      { "<leader>tp", "<Cmd>BufferLinePick<CR>", { desc = "Pick tab" } },
+      { "<leader>tc", "<Cmd>BufferLinePickClose<CR>", { desc = "Pick tab close" } },
+    },
+    opts = {
+      options = {
         -- stylua: ignore
         close_command = function(n) require("mini.bufremove").delete(n, false) end,
         -- stylua: ignore
         right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
-				diagnostics = "nvim_lsp",
-				always_show_bufferline = false,
-				offsets = {
-					{
-						filetype = "neo-tree",
-						text = "Neo-tree",
-						highlight = "Directory",
-						text_align = "left",
-					},
-				},
-			},
-		},
-	},
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = false,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "Neo-tree",
+            highlight = "Directory",
+            text_align = "left",
+          },
+        },
+      },
+    },
+  },
 
-	-- Active indent guide and indent text objects. When you're browsing
-	-- code, this highlights the current level of indentation, and animates
-	-- the highlighting.
-	{
-		"echasnovski/mini.indentscope",
-		version = false, -- wait till new 0.7.0 release to put it back on semver
-		event = { "BufReadPre", "BufNewFile" },
-		opts = {
-			-- symbol = "▏",
-			symbol = "│",
-			options = { try_as_border = true },
-		},
-		init = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = {
-					"help",
-					"alpha",
-					"dashboard",
-					"neo-tree",
-					"Trouble",
-					"lazy",
-					"mason",
-					"notify",
-					"toggleterm",
-					"lazyterm",
-				},
-				callback = function()
-					vim.b.miniindentscope_disable = true
-				end,
-			})
-		end,
-	},
+  -- Active indent guide and indent text objects. When you're browsing
+  -- code, this highlights the current level of indentation, and animates
+  -- the highlighting.
+  {
+    "echasnovski/mini.indentscope",
+    version = false, -- wait till new 0.7.0 release to put it back on semver
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      -- symbol = "▏",
+      symbol = "│",
+      options = { try_as_border = true },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+        callback = function()
+          vim.b.miniindentscope_disable = true
+        end,
+      })
+    end,
+  },
 
-	-- Vim Illuminate
-	{
-		"RRethy/vim-illuminate",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = {
-			delay = 200,
-			large_file_cutoff = 2000,
-			large_file_overrides = {
-				providers = { "lsp" },
-			},
-		},
-		config = function(_, opts)
-			require("illuminate").configure(opts)
+  -- Vim Illuminate
+  {
+    "RRethy/vim-illuminate",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        providers = { "lsp" },
+      },
+    },
+    config = function(_, opts)
+      require("illuminate").configure(opts)
 
-			local function map(key, dir, buffer)
-				vim.keymap.set("n", key, function()
-					require("illuminate")["goto_" .. dir .. "_reference"](false)
-				end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-			end
+      local function map(key, dir, buffer)
+        vim.keymap.set("n", key, function()
+          require("illuminate")["goto_" .. dir .. "_reference"](false)
+        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+      end
 
-			map("]]", "next")
-			map("[[", "prev")
+      map("]]", "next")
+      map("[[", "prev")
 
-			-- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-			vim.api.nvim_create_autocmd("FileType", {
-				callback = function()
-					local buffer = vim.api.nvim_get_current_buf()
-					map("]]", "next", buffer)
-					map("[[", "prev", buffer)
-				end,
-			})
-		end,
-		keys = {
-			{ "]]", desc = "Next Reference" },
-			{ "[[", desc = "Prev Reference" },
-		},
-	},
+      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          local buffer = vim.api.nvim_get_current_buf()
+          map("]]", "next", buffer)
+          map("[[", "prev", buffer)
+        end,
+      })
+    end,
+    keys = {
+      { "]]", desc = "Next Reference" },
+      { "[[", desc = "Prev Reference" },
+    },
+  },
 
-	-- Noice
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			lsp = {
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-				progress = {
-					enabled = false,
-				},
-				signature = {
-					enabled = false,
-				},
-			},
-			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						any = {
-							{ find = "%d+L, %d+B" },
-							{ find = "; after #%d+" },
-							{ find = "; before #%d+" },
-						},
-					},
-					view = "mini",
-				},
-			},
-			presets = {
-				bottom_search = true,
-				command_palette = true,
-				long_message_to_split = true,
-				inc_rename = true,
-			},
-			messages = {
-				enabled = true,
-			},
-		},
+  -- Noice
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+        progress = {
+          enabled = false,
+        },
+        signature = {
+          enabled = false,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
+      messages = {
+        enabled = true,
+      },
+    },
     -- stylua: ignore
     keys = {
       { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
@@ -340,27 +222,27 @@ return {
       { "<leader>na", function() require("noice").cmd("all") end, desc = "Noice All" },
       { "<leader>nd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
     },
-	},
+  },
 
-	-- Git Signs
-	{
-		"lewis6991/gitsigns.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		opts = {
-			-- signs = {
-			-- 	add = { text = "▎" },
-			-- 	change = { text = "▎" },
-			-- 	delete = { text = "" },
-			-- 	topdelete = { text = "" },
-			-- 	changedelete = { text = "▎" },
-			-- 	untracked = { text = "▎" },
-			-- },
-			on_attach = function(buffer)
-				local gs = package.loaded.gitsigns
+  -- Git Signs
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      -- signs = {
+      -- 	add = { text = "▎" },
+      -- 	change = { text = "▎" },
+      -- 	delete = { text = "" },
+      -- 	topdelete = { text = "" },
+      -- 	changedelete = { text = "▎" },
+      -- 	untracked = { text = "▎" },
+      -- },
+      on_attach = function(buffer)
+        local gs = package.loaded.gitsigns
 
-				local function map(mode, l, r, desc)
-					vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-				end
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        end
 
         -- stylua: ignore start
         map("n", "]h", gs.next_hunk, "Next Hunk")
@@ -368,98 +250,89 @@ return {
         map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
         map({ "n", "v" }, "<leader>gr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
         map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "Blame Line")
-			end,
-		},
-	},
+      end,
+    },
+  },
 
-	-- TODO Comments
-	{
-		"folke/todo-comments.nvim",
-		cmd = { "TodoTrouble", "TodoTelescope" },
-		event = { "BufReadPost", "BufNewFile" },
-		config = true,
-		keys = {
-			{
-				"]t",
-				function()
-					require("todo-comments").jump_next()
-				end,
-				desc = "Next todo comment",
-			},
-			{
-				"[t",
-				function()
-					require("todo-comments").jump_prev()
-				end,
-				desc = "Previous todo comment",
-			},
-			{ "<leader>tT", "<Cmd>TodoTrouble<cr>", desc = "Todo Trouble" },
-			{ "<leader>tt", "<Cmd>TodoTelescope<cr>", desc = "Todo" },
-		},
-	},
+  -- TODO Comments
+  {
+    "folke/todo-comments.nvim",
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    event = { "BufReadPost", "BufNewFile" },
+    config = true,
+    keys = {
+      {
+        "]t",
+        function()
+          require("todo-comments").jump_next()
+        end,
+        desc = "Next todo comment",
+      },
+      {
+        "[t",
+        function()
+          require("todo-comments").jump_prev()
+        end,
+        desc = "Previous todo comment",
+      },
+      { "<leader>ft", "<Cmd>TodoTelescope<cr>", desc = "Todo" },
+    },
+  },
 
-	-- animations
-	{
-		"echasnovski/mini.animate",
-		event = "VeryLazy",
-		opts = function()
-			-- don't use animate when scrolling with the mouse
-			local mouse_scrolled = false
-			for _, scroll in ipairs({ "Up", "Down" }) do
-				local key = "<ScrollWheel" .. scroll .. ">"
-				vim.keymap.set({ "", "i" }, key, function()
-					mouse_scrolled = true
-					return key
-				end, { expr = true })
-			end
+  -- animations
+  {
+    "echasnovski/mini.animate",
+    event = "VeryLazy",
+    opts = function()
+      -- don't use animate when scrolling with the mouse
+      local mouse_scrolled = false
+      for _, scroll in ipairs({ "Up", "Down" }) do
+        local key = "<ScrollWheel" .. scroll .. ">"
+        vim.keymap.set({ "", "i" }, key, function()
+          mouse_scrolled = true
+          return key
+        end, { expr = true })
+      end
 
-			local animate = require("mini.animate")
-			return {
-				resize = {
-					timing = animate.gen_timing.linear({ duration = 100, unit = "total" }),
-				},
-				scroll = {
-					timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
-					subscroll = animate.gen_subscroll.equal({
-						predicate = function(total_scroll)
-							if mouse_scrolled then
-								mouse_scrolled = false
-								return false
-							end
-							return total_scroll > 1
-						end,
-					}),
-				},
-			}
-		end,
-	},
+      local animate = require("mini.animate")
+      return {
+        resize = {
+          timing = animate.gen_timing.linear({ duration = 100, unit = "total" }),
+        },
+        scroll = {
+          timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
+          subscroll = animate.gen_subscroll.equal({
+            predicate = function(total_scroll)
+              if mouse_scrolled then
+                mouse_scrolled = false
+                return false
+              end
+              return total_scroll > 1
+            end,
+          }),
+        },
+      }
+    end,
+  },
 
-	-- Fidget
-	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		event = "LspAttach",
-		opts = {
-			text = {
-				spinner = "moon",
-			},
-			align = {
-				bottom = true,
-			},
-			window = {
-				relative = "editor",
-			},
-		},
-	},
+  -- Fidget
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {
+      progress = {
+        display = {
+          progress_icon = {
+            pattern = "moon",
+          },
+        },
+      },
+    },
+  },
 
-	{
-		"xiyaowong/transparent.nvim",
-		cmd = { "TransparentToggle" },
-	},
+  -- Icons
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
-	-- Icons
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
-
-	-- UI Components
-	{ "MunifTanjim/nui.nvim", lazy = true },
+  -- UI Components
+  { "MunifTanjim/nui.nvim", lazy = true },
 }
