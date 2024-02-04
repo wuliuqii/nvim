@@ -33,5 +33,10 @@
     "prefix": "stru",
     "body": "struct ${1:name} {\n    ${2:field}: ${3:type}\n}\n",
     "description": "struct template"
+  },
+  "pub-struct": {
+    "prefix": "pstru",
+    "body": "pub struct ${1:name} {\n    ${2:field}: ${3:type}\n}\n",
+    "description": "pub struct template"
   }
 }
