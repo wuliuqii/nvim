@@ -37,9 +37,12 @@ return {
         "regex",
         "vim",
         "vimdoc",
+        "xml",
 
         -- orgmode
         "norg",
+
+        "nix",
 
         -- go
         "go",
