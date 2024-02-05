@@ -330,6 +330,12 @@ return {
     },
   },
 
+  {
+    "dgagn/diagflow.nvim",
+    event = "LspAttach",
+    opts = {},
+  },
+
   -- Icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
