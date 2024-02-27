@@ -30,7 +30,7 @@ return function()
       },
     },
   })
-  lspconfig.taplo = {
+  lspconfig.taplo.setup({
     keys = {
       {
         "K",
@@ -44,7 +44,7 @@ return function()
         desc = "Show Crate Documentation",
       },
     },
-  }
+  })
   lspconfig.gopls.setup({
     capabilities = capabilities,
     settings = {
@@ -85,6 +85,42 @@ return function()
     },
   })
   lspconfig.nil_ls.setup({ capabilities = capabilities })
+  lspconfig.tsserver.setup({
+    keys = {
+      {
+        "<leader>co",
+        function()
+          vim.lsp.buf.code_action({
+            apply = true,
+            context = {
+              only = { "source.organizeImports.ts" },
+              diagnostics = {},
+            },
+          })
+        end,
+        desc = "Organize Imports",
+      },
+      {
+        "<leader>cR",
+        function()
+          vim.lsp.buf.code_action({
+            apply = true,
+            context = {
+              only = { "source.removeUnused.ts" },
+              diagnostics = {},
+            },
+          })
+        end,
+        desc = "Remove Unused Imports",
+      },
+    },
+    ---@diagnostic disable-next-line: missing-fields
+    settings = {
+      completions = {
+        completeFunctionCalls = true,
+      },
+    },
+  })
 
   -- Diagnostics
   local signs = {

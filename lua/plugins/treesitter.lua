@@ -53,6 +53,10 @@ return {
         -- rust
         "rust",
         "toml",
+
+        -- ts
+        "typescript",
+        "tsx",
       },
     },
     ---@param opts TSConfig
