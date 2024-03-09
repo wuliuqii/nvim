@@ -81,7 +81,7 @@ return {
         stdin = true,
       })
       ft("json"):fmt("prettier")
-      ft("toml"):fmt("prettier")
+      ft("toml"):fmt("taplo")
       ft("markdown"):fmt("prettier")
 
       require("guard").setup({
