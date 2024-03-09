@@ -81,6 +81,8 @@ return {
         stdin = true,
       })
       ft("json"):fmt("prettier")
+      ft("toml"):fmt("prettier")
+      ft("markdown"):fmt("prettier")
 
       require("guard").setup({
         fmt_on_save = true,

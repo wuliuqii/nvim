@@ -180,10 +180,6 @@ return {
     ft = { "norg" },
     dependencies = {
       { "nvim-neorg/neorg-telescope" },
-      -- {
-      -- 	"lukas-reineke/headlines.nvim",
-      -- 	config = true,
-      -- },
     },
     keys = {
       { "<leader>oo", "<cmd>Neorg workspace notes<cr>", desc = "Neorg workspace" },
@@ -226,5 +222,46 @@ return {
         ["core.integrations.treesitter"] = {},
       },
     },
+  },
+
+  -- markdown
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreview", "MarkdownPreviewToggle", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    keys = {
+      { "<leader>om", "<cmd>MarkdownPreviewToggle<cr>", desc = "Markdown Preview Toggle" },
+    },
+  },
+
+  {
+    "lukas-reineke/headlines.nvim",
+    enabled = false,
+    opts = function()
+      local opts = {}
+      for _, ft in ipairs({ "markdown", "norg", "rmd", "org" }) do
+        opts[ft] = {
+          headline_highlights = {},
+        }
+        for i = 1, 6 do
+          local hl = "Headline" .. i
+          vim.api.nvim_set_hl(0, hl, { link = "Headline", default = true })
+          table.insert(opts[ft].headline_highlights, hl)
+        end
+      end
+      return opts
+    end,
+    ft = { "markdown", "norg", "rmd", "org" },
+    config = function(_, opts)
+      -- PERF: schedule to prevent headlines slowing down opening a file
+      vim.schedule(function()
+        require("headlines").setup(opts)
+        require("headlines").refresh()
+      end)
+    end,
   },
 }

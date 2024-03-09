@@ -57,7 +57,7 @@ local function conf_keymaps()
   vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
   vim.keymap.set("n", "<leader>fm", builtin.man_pages, { desc = "Man pages" })
   vim.keymap.set("n", "<leader>fc", builtin.colorscheme, { desc = "Colorscheme" })
-  vim.keymap.set("n", "/", builtin.current_buffer_fuzzy_find, { desc = "Fuzzy find in file" })
+  -- vim.keymap.set("n", "/", builtin.current_buffer_fuzzy_find, { desc = "Fuzzy find in file" })
   vim.keymap.set("n", "*", find_under_cursor, { desc = "Fuzzy find in file" })
   vim.keymap.set("n", "#", find_under_cursor, { desc = "Fuzzy find in file" })
 

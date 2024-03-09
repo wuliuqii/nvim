@@ -85,6 +85,7 @@ return function()
     },
   })
   lspconfig.nil_ls.setup({ capabilities = capabilities })
+  lspconfig.marksman.setup({ capabilities = capabilities })
   lspconfig.tsserver.setup({
     keys = {
       {
