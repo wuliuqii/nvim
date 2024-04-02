@@ -38,6 +38,7 @@ return {
         "vim",
         "vimdoc",
         "xml",
+        "just",
 
         -- orgmode
         "norg",

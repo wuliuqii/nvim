@@ -17,10 +17,10 @@ return function()
     formatting = {
       format = lspkind.cmp_format({
         mode = "symbol",
-        maxwidth = 40,
+        maxwidth = 30,
         ellipsis_char = "...",
         symbol_map = { Copilot = "" },
-        show_labelDetails = true,
+        -- show_labelDetails = true,
       }),
     },
     snippet = {
@@ -84,8 +84,8 @@ return function()
       ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = cmp.config.sources({
-      { name = "copilot" },
       { name = "nvim_lsp" },
+      { name = "copilot" },
       { name = "nvim_lua" },
       { name = "luasnip" },
       { name = "path" },

@@ -65,6 +65,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-go",
       "rouge8/neotest-rust",
+      "nvim-neotest/nvim-nio",
     },
     -- stylua: ignore
     keys = {
@@ -263,5 +264,11 @@ return {
         require("headlines").refresh()
       end)
     end,
+  },
+
+  -- just
+  {
+    "NoahTheDuke/vim-just",
+    ft = { "just" },
   },
 }
