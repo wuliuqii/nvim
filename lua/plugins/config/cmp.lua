@@ -20,6 +20,8 @@ return function()
         maxwidth = 30,
         ellipsis_char = "...",
         symbol_map = { Copilot = "" },
+        -- https://github.com/hrsh7th/nvim-cmp/issues/1154
+        menu = {},
         -- show_labelDetails = true,
       }),
     },
