@@ -76,6 +76,7 @@ return {
         stdin = true,
       })
       ft("lua"):fmt("stylua")
+      ft("zig"):fmt("zigfmt")
       ft("nix"):fmt({
         cmd = "nixpkgs-fmt",
         stdin = true,
