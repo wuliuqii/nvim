@@ -62,33 +62,34 @@ return {
 
   -- format
   {
-    "nvimdev/guard.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "nvimdev/guard-collection",
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader>lf",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "",
+        desc = "Format buffer",
+      },
     },
-    keys = { { "<leader>lf", "<cmd>GuardFmt<cr>", desc = "Guard format" } },
-    config = function()
-      local ft = require("guard.filetype")
-      ft("rust"):fmt("rustfmt")
-      ft("go"):fmt("gofmt"):append("golines"):lint({
-        cmd = "golangci-lint",
-        stdin = true,
-      })
-      ft("lua"):fmt("stylua")
-      ft("zig"):fmt("zigfmt")
-      ft("nix"):fmt({
-        cmd = "nixpkgs-fmt",
-        stdin = true,
-      })
-      ft("json"):fmt("prettier")
-      ft("toml"):fmt("taplo")
-      ft("markdown"):fmt("prettier")
-
-      require("guard").setup({
-        fmt_on_save = true,
-        lsp_as_default_formatter = false,
-      })
-    end,
+    opts = {
+      -- Define your formatters
+      formatters_by_ft = {
+        lua = { "stylua" },
+        rust = { "rustfmt" },
+        toml = { "taplo" },
+        go = { "gofmt", "golines" },
+        nix = { "nixpkgs_fmt" },
+        zig = { "zigfmt" },
+        markdown = { "prettier" },
+        json = { "prettier" },
+      },
+      -- Set up format-on-save
+      format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    },
   },
 }
