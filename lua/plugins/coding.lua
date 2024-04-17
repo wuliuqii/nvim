@@ -110,10 +110,10 @@ return {
   -- Better text-objects
   {
     "echasnovski/mini.ai",
-    -- keys = {
-    --   { "a", mode = { "x", "o" } },
-    --   { "i", mode = { "x", "o" } },
-    -- },
+    keys = {
+      { "a", mode = { "x", "o" } },
+      { "i", mode = { "x", "o" } },
+    },
     event = "VeryLazy",
     dependencies = { "nvim-treesitter-textobjects" },
     config = require("config.mini_ai"),

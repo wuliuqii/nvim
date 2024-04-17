@@ -343,8 +343,10 @@ return {
     },
   },
 
+  -- LSP diagnostics in virtual text at the top right of your screen
   {
     "dgagn/diagflow.nvim",
+    enabled = false,
     event = "LspAttach",
     opts = {},
   },
