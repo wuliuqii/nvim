@@ -1,8 +1,10 @@
--- This file is automatically loaded by plugins.core
+local opt = vim.opt
+local wo = vim.wo
+local g = vim.g
+local o = vim.o
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-
-local opt = vim.opt
 
 opt.autoread = true
 opt.autowrite = true -- Enable auto write
@@ -57,21 +59,19 @@ opt.winminwidth = 5 -- Minimum window width
 opt.splitkeep = "screen"
 opt.shortmess:append({ C = true })
 
-local wo = vim.wo
-
 wo.number = true
 wo.cursorline = true
 wo.cursorlineopt = "number"
 
 -- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
+g.markdown_recommended_style = 0
 
-vim.g.loader_python3_provider = 0
-vim.g.loader_perl_provider = 0
-vim.g.loader_ruby_provider = 0
-vim.g.loader_node_provider = 0
+g.loader_python3_provider = 0
+g.loader_perl_provider = 0
+g.loader_ruby_provider = 0
+g.loader_node_provider = 0
 
-vim.opt.fillchars = {
+opt.fillchars = {
   foldopen = "",
   foldclose = "",
   fold = " ",
@@ -79,20 +79,8 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-vim.o.foldcolumn = "0"
 
-if vim.g.neovide then
-  vim.opt.guifont = { "JetBrainsMono Nerd Font Mono", ":h12" }
-  vim.g.neovide_scale_factor = 1.2
-  vim.g.neovide_hide_mouse_when_typing = true
-end
-
--- disable new line comments
-vim.api.nvim_create_autocmd("BufEnter", {
-  callback = function()
-    vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
-  end,
-})
+o.foldlevel = 99
+o.foldlevelstart = 99
+o.foldenable = true
+o.foldcolumn = "0"

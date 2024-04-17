@@ -7,6 +7,9 @@ require("core.options")
 require("core.keymaps")
 require("core.autocmd")
 
+-- Neovide configuration
+require("core.neovide")
+
 -- Bootstrap Lazy.nvim
 require("core.lazy")
 
