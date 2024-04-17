@@ -334,6 +334,9 @@ return {
     event = "LspAttach",
     opts = {
       progress = {
+        lsp = {
+          progress_ringbuf_size = 2048,
+        },
         display = {
           progress_icon = {
             pattern = "moon",
