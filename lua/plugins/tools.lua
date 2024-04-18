@@ -39,6 +39,22 @@ return {
     },
   },
 
+  {
+    "NStefan002/screenkey.nvim",
+    cmd = "Screenkey",
+    keys = { { "<leader>ok", "<Cmd>Screenkey<CR>", desc = "Toggle screenkey" } },
+    config = true,
+  },
+
+  {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    keys = {
+      { "<leader>oz", "<Cmd>ZenMode<CR>", desc = "Zen Mode" },
+    },
+    config = true,
+  },
+
   -- Library used by other plugins
   { "nvim-lua/plenary.nvim", lazy = true },
 }
