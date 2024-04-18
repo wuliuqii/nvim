@@ -55,6 +55,16 @@ return {
     config = true,
   },
 
+  -- music player
+  {
+    "tamton-aquib/mpv.nvim",
+    cmd = "MpvToggle",
+    keys = {
+      { "<leader>om", "<Cmd>MpvToggle<CR>", desc = "Toggle music player" },
+    },
+    config = true,
+  },
+
   -- Library used by other plugins
   { "nvim-lua/plenary.nvim", lazy = true },
 }

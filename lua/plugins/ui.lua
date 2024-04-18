@@ -359,6 +359,16 @@ return {
     opts = {},
   },
 
+  {
+    "tamton-aquib/duck.nvim",
+    -- stylua: ignore
+    keys = {
+      { "<leader>op", function() require("duck").hatch("🐈", 10) end, desc = "Hatch Duck" },
+      { "<leader>kp", function() require("duck").cook() end, desc = "Cook Duck" },
+      { "<leader>ka", function() require("duck").cook_all() end, desc = "Cook All Ducks" },
+    },
+  },
+
   -- Icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
