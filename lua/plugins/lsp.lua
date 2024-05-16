@@ -86,6 +86,7 @@ return {
         nix = { "nixpkgs_fmt" },
         zig = { "zigfmt" },
         markdown = { "prettier" },
+        typst = { "typstfmt" },
         json = { "prettier" },
       },
       -- Set up format-on-save

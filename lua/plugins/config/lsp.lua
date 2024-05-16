@@ -87,6 +87,7 @@ return function()
   lspconfig.zls.setup({ capabilities = capabilities })
   lspconfig.nil_ls.setup({ capabilities = capabilities })
   lspconfig.marksman.setup({ capabilities = capabilities })
+  lspconfig.tinymist.setup({ capabilities = capabilities })
   lspconfig.tsserver.setup({
     keys = {
       {

@@ -9,7 +9,7 @@ return {
         on_attach = function(client, bufnr)
           local wk = require("which-key")
           wk.register({
-            ["<leader>cr"] = {
+            ["<leader>ca"] = {
               function()
                 vim.cmd.RustLsp("codeAction")
               end,
@@ -32,11 +32,13 @@ return {
               runBuildScripts = true,
             },
             checkOnSave = {
+              enable = true,
+              allTargets = false,
               command = "clippy",
               extraArgs = {
                 "--no-deps",
               },
-              allFeatures = true,
+              allFeatures = false,
             },
             procMacro = {
               enable = true,
@@ -45,6 +47,9 @@ return {
                 ["napi-derive"] = { "napi" },
                 ["async-recursion"] = { "async_recursion" },
               },
+            },
+            diagnostics = {
+              enable = false,
             },
           },
         },
@@ -267,5 +272,21 @@ return {
   {
     "NoahTheDuke/vim-just",
     ft = { "just" },
+  },
+
+  -- typst
+  {
+    "chomosuke/typst-preview.nvim",
+    dev = false,
+    ft = "typst",
+    opts = {
+      dependencies_bin = {
+        ["typst-preview"] = "typst-preview",
+        ["websocat"] = "websocat",
+      },
+      invert_colors = "auto",
+      debug = false,
+      open_cmd = "firefox %s --target window ",
+    },
   },
 }
