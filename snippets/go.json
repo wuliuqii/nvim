@@ -1,7 +1,0 @@
-{
-  "unim": {
-    "prefix": "unim",
-    "body": "panic(\"unimplemented\") // TODO: Implement\n",
-    "description": "unimplemented"
-  }
-}
