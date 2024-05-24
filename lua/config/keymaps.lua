@@ -1,11 +1,7 @@
--- local function map(mode, lhs, rhs, opts)
--- 	opts = opts or {}
--- 	opts.silent = opts.silent ~= false
--- 	if opts.remap then
--- 		opts.remap = nil
--- 	end
--- 	vim.keymap.set(mode, lhs, rhs, opts)
--- end
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+
 local map = vim.keymap.set
 
 -- better up/down
