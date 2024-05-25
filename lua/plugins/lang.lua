@@ -1,17 +1,9 @@
-local function uname()
-  local handle = io.popen("uname -a")
-  if handle then
-    local res = handle:read("a")
-    handle:close()
-    return string.match(res, "nixos")
-  end
-  return nil
-end
+local util = require("util")
 
 return {
   {
     "williamboman/mason.nvim",
-    enabled = uname() ~= "nixos",
+    enabled = util.uname() ~= "nixos",
   },
 
   {

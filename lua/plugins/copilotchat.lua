@@ -1,6 +1,9 @@
+local util = require("util")
+
 return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    enabled = util.uname() == "nixos",
     branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
