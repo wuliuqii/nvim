@@ -1,9 +1,9 @@
 local function uname()
-  local handle = io.popen("uname")
+  local handle = io.popen("uname -a")
   if handle then
     local res = handle:read("a")
     handle:close()
-    return string.match(res, "^%s*(.-)%s*$")
+    return string.match(res, "nixos")
   end
   return nil
 end
@@ -11,7 +11,7 @@ end
 return {
   {
     "williamboman/mason.nvim",
-    enabled = uname() == "Nixos",
+    enabled = uname() ~= "nixos",
   },
 
   {
