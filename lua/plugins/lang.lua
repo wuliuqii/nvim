@@ -11,6 +11,7 @@ return {
     opts = {
       ensure_installed = {
         "nix",
+        "zig",
       },
     },
   },
@@ -20,6 +21,19 @@ return {
     opts = {
       servers = {
         nil_ls = {},
+        zls = {},
+      },
+    },
+  },
+
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "lawrence-laz/neotest-zig",
+    },
+    opts = {
+      adapters = {
+        ["neotest-zig"] = {},
       },
     },
   },
@@ -29,6 +43,7 @@ return {
     opts = {
       formatters_by_ft = {
         nix = { "nixpkgs_fmt" },
+        zig = { "zigfmt" },
       },
     },
   },
