@@ -1,6 +1,7 @@
 return {
   {
     "m4xshen/hardtime.nvim",
+    enabled = false,
     event = "BufReadPre",
     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
     opts = {
