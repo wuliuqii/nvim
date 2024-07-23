@@ -8,7 +8,11 @@ return {
     name = "catppuccin",
     opts = {
       -- transparent_background = true,
-      flavour = "macchiato",
+      flavour = "auto",
+      background = { -- :h background
+        light = "latte",
+        dark = "macchiato",
+      },
     },
   },
 }
