@@ -4,3 +4,4 @@
 
 -- disable mouse
 vim.opt.mouse = ""
+vim.opt.spell = true

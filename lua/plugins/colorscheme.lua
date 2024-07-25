@@ -13,6 +13,7 @@ return {
         light = "latte",
         dark = "macchiato",
       },
+      term_colors = true,
     },
   },
 }
