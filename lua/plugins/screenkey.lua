@@ -3,6 +3,6 @@ return {
   lazy = false,
   branch = "dev",
   keys = {
-    { "<leader>k", "<CMD>Screenkey toggle<CR>", desc = "Neogit" },
+    { "<leader>k", "<CMD>Screenkey toggle<CR>", desc = "Screenkey" },
   },
 }
