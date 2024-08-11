@@ -4,7 +4,7 @@ end
 
 local g = vim.g
 
-vim.opt.guifont = { "JetBrainsMono Nerd Font Mono", "Source Han Sans SC", ":h16" }
+vim.opt.guifont = { "JetBrains Mono", "Symbols Nerd Font Mono", "Source Han Sans SC", ":h18" }
 
 g.neovide_padding_top = 0
 g.neovide_padding_bottom = 0
