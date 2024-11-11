@@ -1,7 +1,7 @@
 return {
   {
     "LazyVim/LazyVim",
-    -- opts = { colorscheme = "catppuccin" },
+    opts = { colorscheme = "catppuccin" },
   },
 
   {
@@ -13,6 +13,10 @@ return {
       background = { -- :h background
         light = "latte",
         dark = "macchiato",
+      },
+      integrations = {
+        blink_cmp = true,
+        fzf = true,
       },
       term_colors = true,
     },
