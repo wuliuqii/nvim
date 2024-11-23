@@ -3,5 +3,5 @@
 -- Add any additional options here
 
 -- disable mouse
-vim.opt.mouse = ""
+-- vim.opt.mouse = ""
 vim.opt.spell = true
