@@ -17,6 +17,7 @@ return {
       integrations = {
         blink_cmp = true,
         fzf = true,
+        snacks = true,
       },
       term_colors = true,
     },
