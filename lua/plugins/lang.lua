@@ -10,4 +10,9 @@ return {
     "williamboman/mason-lspconfig.nvim",
     enabled = util.uname() ~= "nixos",
   },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    enabled = util.uname() ~= "nixos",
+  },
 }
