@@ -3,5 +3,7 @@
 -- Add any additional options here
 
 -- disable mouse
--- vim.opt.mouse = ""
+vim.opt.mouse = ""
 vim.opt.spell = true
+
+vim.g.lazyvim_blink_main = true
