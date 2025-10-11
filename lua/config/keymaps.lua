@@ -69,4 +69,4 @@ del("n", "<leader>|")
 del("n", "<leader>ft")
 del("n", "<leader>fT")
 
-del("n", "<leader>gG")
+-- del("n", "<leader>gG")
